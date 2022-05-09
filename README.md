@@ -142,7 +142,7 @@ Composable function을 배치하기 위한 [`Column`, `Row`와 `Box`](https://de
 ![image](https://user-images.githubusercontent.com/55622345/167368302-5696dad5-0e61-4389-aeb3-e9ad5a17bf06.png)
 
 
-## Row
+### Row
 `Column`을 `Row`로 변경하겠습니다. <br>
 `Row`도 `Column`과 유사하게 수평과 수직의 배치를 조정할 수 있지만 `Row`는 기본이 수평배치가 됩니다. 
 
@@ -177,6 +177,227 @@ Composable function을 배치하기 위한 [`Column`, `Row`와 `Box`](https://de
             }
         }
 ```
+
+### Box
+`Box`는 **HTML**에서 `<div>`와 비슷 합니다. 
+
+작성된 코드에서 `Greeting`을 지우고 `Box`를 생성하기 위한 함수를 추가하겠습니다. 
+```kotlin
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            BoxExample1()
+        }
+    }
+}
+
+@Composable
+fun BoxExample1() {
+    Box(
+        modifier = Modifier
+            .background(color = Color.Green)
+            .size(180.dp, 300.dp)
+    ) {
+
+    }
+}
+
+```
+<img src="https://user-images.githubusercontent.com/55622345/167399425-0d0a8f37-85d6-48d8-85cf-abf0464e9aea.png" width="200px">
+
+`BoxExample1`의 `Box`안에 또다른 박스와 텍스트뷰를 추가해봅시다. 
+```kotlin
+@Composable
+fun BoxExample1() {
+    Box(
+        modifier = Modifier
+            .background(color = Color.Green)
+            .size(180.dp, 300.dp)
+    ) {
+        Box (
+            modifier = Modifier
+                .background(color = Color.Yellow)
+                .size(120.dp, 100.dp)
+        ) {
+
+        }
+
+        Text(
+            text = "Hello Box!",
+            style = MaterialTheme.typography.h3,
+            modifier = Modifier
+                .background(color = Color.White)
+                .size(90.dp, 50.dp)
+        )
+    }
+}
+```
+![image](https://user-images.githubusercontent.com/55622345/167400209-dc21063d-8607-4975-a46c-1f903ab6b141.png)
+
+추가된 child view들은 `Box`에서 스택형식으로 쌓이게 됩니다. child view의 `Modifier`에 `Align`값을 추가하여 parent view 내에서의 위치를 조정할 수 있습니다. 
+
+```kotlin 
+        Box (
+            modifier = Modifier
+                .background(color = Color.Yellow)
+                .size(120.dp, 100.dp)
+                .align(Alignment.TopEnd)
+        ) {
+
+        }
+
+        Text(
+            text = "Hello Box!",
+            style = MaterialTheme.typography.h3,
+            modifier = Modifier
+                .background(color = Color.White)
+                .size(90.dp, 50.dp)
+                .align(Alignment.BottomCenter)
+        )
+    }
+```
+![image](https://user-images.githubusercontent.com/55622345/167400778-e73dc3e8-a04f-437d-990d-ecfde19b5473.png)
+
+`Box`는 TopEnd로 `Text`는 BottomCenter로 값을 넣으면 부모 객체 내에서 위치를 잡게 됩니다. 
+
+자식 객체들은 아래와 같이 부모 `Box`내에서 `Align`값에 따라서 위치가 바뀌게 됩니다.
+```kotlin
+@Composable
+fun BoxExample2() {
+    Box (
+        modifier = Modifier
+            .background(color = Color.LightGray)
+            .fillMaxSize()
+    ){
+        Text(
+            text = "TopStart",
+            style = MaterialTheme.typography.h5,
+            color = Color.White,
+            modifier = Modifier
+                .background(color = Color.Black)
+                .border(color = Color.Red, width = 4.dp)
+                .padding(10.dp)
+                .align(Alignment.TopStart)
+        )
+        Text(
+            text = "TopCenter",
+            style = MaterialTheme.typography.h5,
+            color = Color.White,
+            modifier = Modifier
+                .background(color = Color.Black)
+                .border(color = Color.Red, width = 4.dp)
+                .padding(10.dp)
+                .align(Alignment.TopCenter)
+        )
+        Text(
+            text = "TopEnd",
+            style = MaterialTheme.typography.h5,
+            color = Color.White,
+            modifier = Modifier
+                .background(color = Color.Black)
+                .border(color = Color.Red, width = 4.dp)
+                .padding(10.dp)
+                .align(Alignment.TopEnd)
+        )
+        Text(
+            text = "CenterStart",
+            style = MaterialTheme.typography.h5,
+            color = Color.White,
+            modifier = Modifier
+                .background(color = Color.Black)
+                .border(color = Color.Red, width = 4.dp)
+                .padding(10.dp)
+                .align(Alignment.CenterStart)
+        )
+        Text(
+            text = "Center",
+            style = MaterialTheme.typography.h5,
+            color = Color.White,
+            modifier = Modifier
+                .background(color = Color.Black)
+                .border(color = Color.Red, width = 4.dp)
+                .padding(10.dp)
+                .align(Alignment.Center)
+        )
+        Text(
+            text = "CenterEnd",
+            style = MaterialTheme.typography.h5,
+            color = Color.White,
+            modifier = Modifier
+                .background(color = Color.Black)
+                .border(color = Color.Red, width = 4.dp)
+                .padding(10.dp)
+                .align(Alignment.CenterEnd)
+        )
+        Text(
+            text = "BtmStart",
+            style = MaterialTheme.typography.h5,
+            color = Color.White,
+            modifier = Modifier
+                .background(color = Color.Black)
+                .border(color = Color.Red, width = 4.dp)
+                .padding(10.dp)
+                .align(Alignment.BottomStart)
+        )
+        Text(
+            text = "BtmCenter",
+            style = MaterialTheme.typography.h5,
+            color = Color.White,
+            modifier = Modifier
+                .background(color = Color.Black)
+                .border(color = Color.Red, width = 4.dp)
+                .padding(10.dp)
+                .align(Alignment.BottomCenter)
+        )
+        Text(
+            text = "BtmEnd",
+            style = MaterialTheme.typography.h5,
+            color = Color.White,
+            modifier = Modifier
+                .background(color = Color.Black)
+                .border(color = Color.Red, width = 4.dp)
+                .padding(10.dp)
+                .align(Alignment.BottomEnd)
+        )
+    }
+}
+```
+![image](https://user-images.githubusercontent.com/55622345/167402145-baf0bdba-9d4c-4412-9177-24e43e115871.png)
+
+
+`Box`를 사용하면 다른 View 객체들과 적절한 배치를 통해서 쉽게 디자인을 할 수 있습니다.
+```kotlin
+@Composable
+fun BoxExample3() {
+    Box() {
+        Image(
+            painter = painterResource(id = R.drawable.sok),
+            contentDescription = "속초"
+        )
+        Text(
+            text = "속초 해수욕장",
+            style = MaterialTheme.typography.h4,
+            color = Color.White,
+            modifier = Modifier.align(Alignment.BottomStart)
+        )
+        ButtonDefaults(
+            onClick = {},
+            colors = ButtonDefaults.textButtonColors(
+                backgroundColor = Color.White,
+                contentColor = Color.Gray
+            ),
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(10.dp)
+                .border(5.dp, Color.DarkGray, RectangleShape)
+        ) {
+            Text("Back To List")
+        }
+    }
+}
+```
+![image](https://user-images.githubusercontent.com/55622345/167405732-ee792cc9-5dc2-4d9d-8db1-0b2337e4a331.png)
 
 ## Ref.
 https://developer.android.com/jetpack/compose <br>
