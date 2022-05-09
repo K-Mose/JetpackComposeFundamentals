@@ -142,6 +142,42 @@ Composable function을 배치하기 위한 [`Column`, `Row`와 `Box`](https://de
 ![image](https://user-images.githubusercontent.com/55622345/167368302-5696dad5-0e61-4389-aeb3-e9ad5a17bf06.png)
 
 
+## Row
+`Column`을 `Row`로 변경하겠습니다. <br>
+`Row`도 `Column`과 유사하게 수평과 수직의 배치를 조정할 수 있지만 `Row`는 기본이 수평배치가 됩니다. 
+
+![image](https://user-images.githubusercontent.com/55622345/167369468-8b7ab9e6-16e3-4302-81bf-411c2dcfcb92.png)
+
+그렇기 때문에 `Column`과는 반대로 `horizontal`은 `Arrangement`값을 받고
+- Top
+- Center
+- Bottom 
+- SpaceAround
+- SpaceBetween
+- SpaceEvenly
+
+`vertical`은 `Alignment`값을 받습니다. 
+- CenterHorizontally
+- Start
+- End
+
+```kotlin
+        setContent {
+            Row (
+                modifier = Modifier
+                    .background(color = Color.LightGray)
+                    .fillMaxSize()
+                    .fillMaxHeight(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Greeting("Android")
+                Greeting("Kotlin")
+                Greeting("Mose")
+            }
+        }
+```
+
 ## Ref.
 https://developer.android.com/jetpack/compose <br>
 https://developer.android.com/jetpack/compose/tutorial <br>
