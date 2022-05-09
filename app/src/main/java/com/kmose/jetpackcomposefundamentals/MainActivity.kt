@@ -24,16 +24,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Column (
+            Row (
                 modifier = Modifier
                     .background(color = Color.LightGray)
                     .fillMaxSize()
                     .fillMaxHeight(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Greeting("Gorgeous Android")
-                Greeting("Awesome Kotlin")
+                Greeting("Android")
+                Greeting("Kotlin")
                 Greeting("Mose")
             }
         }
@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
 fun Greeting(name: String) {
     // Jetpack Compose Function - like UI Widget in xml
     Text(
-        text = "Hello $name!",
+        text = name,
         fontSize = 32.sp,
         fontWeight = FontWeight.Bold,
         color = Color.Red,
