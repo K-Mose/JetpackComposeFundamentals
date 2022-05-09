@@ -5,14 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -26,7 +24,18 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Greeting("Android \n\t 여기는 실제 화면")
+            Column (
+                modifier = Modifier
+                    .background(color = Color.LightGray)
+                    .fillMaxSize()
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Greeting("Gorgeous Android")
+                Greeting("Awesome Kotlin")
+                Greeting("Mose")
+            }
         }
     }
 }
@@ -44,9 +53,7 @@ fun Greeting(name: String) {
         modifier = Modifier
             .background(color = Color.Yellow)
             .padding(10.dp)
-            .border(2.dp, color = Color.Green)
-            .fillMaxWidth(0.5f)
-            .fillMaxHeight(0.3f)
+            .border(2.dp, color = Color.Black)
     )
 }
 
