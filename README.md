@@ -95,6 +95,53 @@ Modifier를 추가할 떄는 Modifier에 추가되는 순서에 따라서 적용
 `fillMaxWidth`와 `fillMaxHeight`로 화면 전체를 덮을 수도 있고, 인자 값을 `float`값으로 넘겨줌으로 화면에서 차지할 비율을 설정 할 수 있습니다. 
 
 
+### Layout Arrangment
+여러 compsable function을 같이 사용하면 기본 값으로 View들이 겹치게 됩니다. 
+```kotlin
+        setContent {
+            Greeting("Gorgeous Android")
+            Greeting("Awesome Kotlin")
+            Greeting("Mose")
+        }
+```
+![image](https://user-images.githubusercontent.com/55622345/167364600-da6ff77c-7ad3-47c6-af3e-c9247316017b.png)
+
+Composable function을 배치하기 위한 [`Column`, `Row`와 `Box`](https://developer.android.com/jetpack/compose/tutorial#using-a-column)의 3가지 방법이 있습니다. 
+`Column`은 수직으로 배치하고 `Row`는 수평으로 배치됩니다. 
+
+### Column 
+`Column`에 `Modifier`를 추가하여 수평과 수직으로 배치를 조정할 수 있습니다. <br>
+`verticalArrangement`는  `Arrangement`값을 받아 `Column`내에서 수직으로 배치합니다. 배치 값은 **CSS**의 `justify-content`와 유사합니다. 
+- Top
+- Center
+- Bottom 
+- SpaceAround
+- SpaceBetween
+- SpaceEvenly
+
+`horizontalAlignment`는 `Alignment`값을 받아 `Column`내에서 수평으로 배치합니다. 
+- CenterHorizontally
+- Start
+- End
+
+아래는 위 View를 수평과 수직 중앙에 배치한 코드 입니다. 
+```kotlin
+            Column (
+                modifier = Modifier
+                    .background(color = Color.LightGray)
+                    .fillMaxSize()
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Greeting("Gorgeous Android")
+                Greeting("Awesome Kotlin")
+                Greeting("Mose")
+            }
+```
+![image](https://user-images.githubusercontent.com/55622345/167368302-5696dad5-0e61-4389-aeb3-e9ad5a17bf06.png)
+
+
 ## Ref.
 https://developer.android.com/jetpack/compose <br>
 https://developer.android.com/jetpack/compose/tutorial <br>
