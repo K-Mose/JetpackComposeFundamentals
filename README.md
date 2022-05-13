@@ -399,7 +399,95 @@ fun BoxExample3() {
 ```
 ![image](https://user-images.githubusercontent.com/55622345/167405732-ee792cc9-5dc2-4d9d-8db1-0b2337e4a331.png)
 
+
+## Buttons 
+Jetpack Compose로 버튼을 추가해봅시다. 초기 버튼은 아래와 같습니다. <br>
+`Button(onClick = { /*TODO*/ }) {}` <br>
+`onClick`은 버튼을 눌렀을 때 실행시킬 람다식 자체이며 버튼 속성 값 다음의 중괄호 안에 버튼을 채울 텍스트를 아래와 같이 설정할 수 있습니다. 
+```kotlin
+Button(onClick = {
+        Toast.makeText(context, "Clicked on Button", Toast.LENGTH_SHORT).show()
+    }) {
+        Text("Add To Cart")
+    }
+```
+
+만약에 버튼 클릭을 Disable하게 하고싶다면 버튼에 `enabled`속성을 `false`로 변경하면 됩니다.
+```kotlin 
+Button(onClick = {
+    Toast.makeText(context, "Clicked on Button2", Toast.LENGTH_SHORT).show()
+                 },
+    enabled = false
+) {
+    Text("Add To Cart")
+}    
+```
+![image](https://user-images.githubusercontent.com/55622345/168221886-a47dad96-cea0-4088-a2b3-e2564bb6ce95.png)
+
+<details>
+<summary>Basic Button Customizing</summary>
+
+아래와 같이 `shape, contentPadding, border, color`등으로 스타일을 변경할 수 있습니다. 
+```kotlin
+    Button(onClick = {
+        Toast.makeText(context, "Clicked on Button", Toast.LENGTH_SHORT).show()
+    },
+        shape = CutCornerShape(10.dp),
+        contentPadding = PaddingValues(16.dp),
+        border = BorderStroke(10.dp, Color.Black),
+        colors = ButtonDefaults.textButtonColors(
+            backgroundColor = Color.DarkGray,
+            contentColor =  Color.White
+        )
+    ) {
+        Text("Add To Cart",
+            style = MaterialTheme.typography.h3,
+            modifier = Modifier.padding(5.dp)
+        )
+    }
+```
+</details>
+
+
+다른 스타일의 버튼인 `TextButton`과 `Outline`버튼을 추가해보겠습니다. 
+`TextButton`은 배경색이 없이 텍스트만 보이는 버튼이고, `OutlineButton`은 바깥 선만 있는 버튼입니다. 
+
+```kotlin
+TextButton(onClick = { 
+    Toast.makeText(context, "Clicked on TextButton", Toast.LENGTH_SHORT).show()
+}) {
+    Text("Add To Cart")
+}
+
+OutlinedButton(onClick = { 
+    Toast.makeText(context, "Clicked on OutlineButton", Toast.LENGTH_SHORT).show()
+}) {
+    Text("Add To Cart")
+}
+```
+![image](https://user-images.githubusercontent.com/55622345/168221993-9431eeb1-3aee-4494-acd5-d7c2102c73bf.png)
+
+마지막으로 `IconButton`을 추가해 봅시다. 
+`IconButton`은 버튼을 아이콘 모양으로 생성하여 홈, 다운로드, 새로고침 등의 버튼으로 활용할 수 있습니다. 
+```kotlin
+    IconButton(onClick = { 
+        Toast.makeText(context, "Clicked on IconButton", Toast.LENGTH_SHORT).show()
+    }) {
+        Icon( Icons.Filled.Refresh,
+            contentDescription = "Refresh Button",
+            tint = Color.Green,
+            modifier = Modifier.size(80.dp)
+        )
+    }
+```
+`Icon`에는 `painter`를 통하여 이미지를 넣거나 `imageVector`로 벡터 이미지를 넣을 수 있습니다. 
+
+![image](https://user-images.githubusercontent.com/55622345/168224788-aa95f495-8175-4a72-81c1-09dda7bbbc69.png)
+
+
 ## Ref.
 https://developer.android.com/jetpack/compose <br>
 https://developer.android.com/jetpack/compose/tutorial <br>
 https://developer.android.com/jetpack/compose/mental-model <br>
+
+https://stackoverflow.com/questions/58743541/how-to-get-context-in-jetpack-compose <br>
