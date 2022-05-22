@@ -75,6 +75,38 @@ fun LazyColumnDemo() {
 `LazyColumn`에는 `items`함수가 있어 사용할 뷰들의 갯수를 정하고 생성할 뷰들을 람다식으로 받습니다. 
 
 
+### Item Click Listener
+리스트에 Item Click Listener를 적용하기 위해서는 아래와 같이 `Composable` 함수에 람다식으로 파라메터를 건네주고, Modifier의 `clickable`에 파라메터를 넘겨주면 됩니다. 
+```kotlin 
+@Composable
+fun LazyColumnDemo2(selectedItem: (String)->Unit) {
+        LazyColumn {
+        items(100) { // instead of using a for loop
+            Text(text = "Card No.$it",
+                style = MaterialTheme.typography.h3,
+                modifier = Modifier.padding(10.dp)
+                    .clickable {
+                        selectedItem("$it Selected")
+                    }
+            )
+            Divider(color = Color.Black, thickness = 5.dp )
+        }
+    }
+}
+```
+이제 클릭을 구현하기 위해서 `onCreate`함수에서 `LazyColumnDemo2`함수에 람다식의 인자값을 넘겨줍니다. 
+```kotln
+override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            LazyColumnDemo2 {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+```
+
+![image](https://user-images.githubusercontent.com/55622345/169683101-fb9cb50a-c35a-4303-944b-78302864758b.png)
 
 
 
