@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -23,7 +24,8 @@ class RecyclerViewActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ScrollableColumnDemo()
+//            ScrollableColumnDemo()
+            LazyColumnDemo()
         }
     }
 }
@@ -41,6 +43,18 @@ fun ScrollableColumnDemo() {
     ) {
         for (i in 1 .. 100) {
             Text(text = "Card No.$i",
+                style = MaterialTheme.typography.h3,
+                modifier = Modifier.padding(10.dp))
+            Divider(color = Color.Black, thickness = 5.dp )
+        }
+    }
+}
+
+@Composable
+fun LazyColumnDemo() {
+        LazyColumn {
+        items(100) { // instead of using a for loop
+            Text(text = "Card No.$it",
                 style = MaterialTheme.typography.h3,
                 modifier = Modifier.padding(10.dp))
             Divider(color = Color.Black, thickness = 5.dp )
