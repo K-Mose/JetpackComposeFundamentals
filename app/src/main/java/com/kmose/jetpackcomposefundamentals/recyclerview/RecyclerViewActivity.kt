@@ -4,15 +4,11 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,7 +16,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kmose.jetpackcomposefundamentals.recyclerview.ui.theme.JetpackComposeFundamentalsTheme
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
+import com.kmose.jetpackcomposefundamentals.recyclerview.data.TvShowList
+import com.kmose.jetpackcomposefundamentals.recyclerview.model.TvShow
 import kotlinx.coroutines.selects.select
 
 class RecyclerViewActivity : ComponentActivity() {
@@ -29,8 +37,11 @@ class RecyclerViewActivity : ComponentActivity() {
         setContent {
 //            ScrollableColumnDemo()
 //            LazyColumnDemo()
-            LazyColumnDemo2 {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+//            LazyColumnDemo2 {
+//                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+//            }
+            DisplayingTvShows {
+                Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -71,7 +82,7 @@ fun LazyColumnDemo() {
 /*
 Item Click Listener
 1. Add lambda expression as a parameter to the composable.
-2. Use clicable modifier to pass the selected item.
+2. Use clicakble modifier to pass the selected item.
  */
 @Composable
 fun LazyColumnDemo2(selectedItem: (String)->Unit) {
@@ -79,7 +90,8 @@ fun LazyColumnDemo2(selectedItem: (String)->Unit) {
         items(100) { // instead of using a for loop
             Text(text = "Card No.$it",
                 style = MaterialTheme.typography.h3,
-                modifier = Modifier.padding(10.dp)
+                modifier = Modifier
+                    .padding(10.dp)
                     .clickable {
                         selectedItem("$it Selected")
                     }
@@ -90,4 +102,80 @@ fun LazyColumnDemo2(selectedItem: (String)->Unit) {
 }
 
 
+// Displaying TvShow List
+@Composable
+fun DisplayingTvShows(selectedItem: (TvShow) -> Unit) {
+    val tvShows = remember {
+        TvShowList.tvShows
+    }
+    LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)) {
+        items(
+            items = tvShows,
+            itemContent = {
+                TvShowListItem(tvShow = it, selectedItem)
+            }
+        )
+    }
+}
+
+@Composable
+fun TvShowListItem(tvShow: TvShow, selectedItem: (TvShow) -> Unit) {
+    Card(
+        modifier = Modifier
+            .padding(10.dp)
+            .fillMaxWidth(),
+        elevation = 10.dp,
+        shape = RoundedCornerShape(corner = CornerSize(10.dp))
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(5.dp)
+                .fillMaxWidth()
+                .clickable {
+                    selectedItem(tvShow)
+                },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TvShowImage(tvShow = tvShow)
+            Column {
+                Text( text = tvShow.name, style = MaterialTheme.typography.h5)
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = tvShow.overview,
+                    style = MaterialTheme.typography.body1,
+                    maxLines = 3, // 첫 3줄만 출력
+                    overflow = TextOverflow.Ellipsis // 글자 오버플로 설정
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = tvShow.year.toString(),
+                        style = MaterialTheme.typography.h5
+                    )
+                    Text(
+                        text = tvShow.rating.toString(),
+                        style = MaterialTheme.typography.h5
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TvShowImage(tvShow: TvShow) {
+    Image(
+        painter = painterResource(id = tvShow.imageId),
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .padding(4.dp)
+            .height(140.dp)
+            .width(100.dp)
+            .clip(RoundedCornerShape(corner = CornerSize(10.dp)))
+    )
+}
 
