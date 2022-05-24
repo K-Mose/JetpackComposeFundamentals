@@ -109,6 +109,197 @@ override fun onCreate(savedInstanceState: Bundle?) {
 ![image](https://user-images.githubusercontent.com/55622345/169683101-fb9cb50a-c35a-4303-944b-78302864758b.png)
 
 
+### Item With Multiple Compose
+이제 한 레이아웃 안에서 여러개의 Compose를 사용해서 좀 더 복잡한 구조로 만들어보겠습니다. 
+
+[TMDBClient](https://github.com/K-Mose/TMDBClient---MVVM-with-Clean-Architecture/tree/master/app/src/main/java/com/kmose/tmdbclient/model/tvshow)에서 사용한 Data Model으로 `TvShow` 리스트를 작성해봅시다. 
+
+<details>
+<summary>Data Class</summary>
+
+```kotlin
+import java.io.Serializable
+
+data class TvShow(
+    val id: Int,
+    val name: String,
+    val year: Int,
+    val rating : Double,
+    val imageId : Int,
+    val overview : String
+    ) : Serializable
+    
+    
+    
+object TvShowList {
+
+    val tvShows = listOf(
+
+        TvShow(
+            id = 1,
+            name = "Lucifer",
+            year = 2016,
+            rating = 8.1,
+            imageId = R.drawable.lucifer,
+            overview = "Bored and unhappy as the Lord of Hell, Lucifer Morningstar abandoned his throne and retired to Los Angeles, where he has teamed up with LAPD detective Chloe Decker to take down criminals. But the longer he's away from the underworld, the greater the threat that the worst of humanity could escape."
+        ),
+        TvShow(
+            id = 2,
+            name = "Ragnarok",
+            year = 2020,
+            rating = 7.5,
+            imageId = R.drawable.ragnarok,
+            overview = "A small Norwegian town experiencing warm winters and violent downpours seems to be headed for another Ragnarök -- unless someone intervenes in time."
+        ),
+        TvShow(
+            id = 3,
+            name = "The Flash",
+            year = 2014,
+            rating = 7.7,
+            imageId = R.drawable.flash,
+            overview = "After a particle accelerator causes a freak storm, CSI Investigator Barry Allen is struck by lightning and falls into a coma. Months later he awakens with the power of super speed, granting him the ability to move through Central City like an unseen guardian angel. Though initially excited by his newfound powers, Barry is shocked to discover he is not the only \"meta-human\" who was created in the wake of the accelerator explosion -- and not everyone is using their new powers for good. Barry partners with S.T.A.R. Labs and dedicates his life to protect the innocent. For now, only a few close friends and associates know that Barry is literally the fastest man alive, but it won't be long before the world learns what Barry Allen has become...The Flash."
+        ),
+        TvShow(
+            id = 4,
+            name = "The Good Doctor",
+            year = 2017,
+            rating = 7.1,
+            imageId = R.drawable.doctor,
+            overview = "A young surgeon with Savant syndrome is recruited into the surgical unit of a prestigious hospital. The question will arise: can a person who doesn't have the ability to relate to people actually save their lives"
+        ),
+        TvShow(
+            id = 5,
+            name = "Grey's Anatomy",
+            year = 2005,
+            rating = 7.5,
+            imageId = R.drawable.anatomy,
+            overview = "Follows the personal and professional lives of a group of doctors at Seattle’s Grey Sloan Memorial Hospital."
+        ),
+        TvShow(
+            id = 6,
+            name = "The Walking Dead",
+            year = 2010,
+            rating = 8.2,
+            imageId = R.drawable.twd,
+            overview = "Sheriff's deputy Rick Grimes awakens from a coma to find a post-apocalyptic world dominated by flesh-eating zombies. He sets out to find his family and encounters many other survivors along the way."
+        ),
+        TvShow(
+            id = 7,
+            name = "Carnival Row",
+            year = 2019,
+            rating = 7.9,
+            imageId = R.drawable.carnival,
+            overview = "In a mystical and dark city filled with humans, fairies and other creatures, a police detective investigates a series of gruesome murders leveled against the fairy population. During his investigation, the detective becomes the prime suspect and must find the real killer to clear his name."
+        ),
+        TvShow(
+            id = 8,
+            name = "Legacies",
+            year = 2018,
+            rating = 7.4,
+            imageId = R.drawable.legacies,
+            overview = "In a place where young witches, vampires, and werewolves are nurtured to be their best selves in spite of their worst impulses, Klaus Mikaelson’s daughter, 17-year-old Hope Mikaelson, Alaric Saltzman’s twins, Lizzie and Josie Saltzman, among others, come of age into heroes and villains at The Salvatore School for the Young and Gifted."
+        )
+
+    )
+}    
+```
+</details>
+
+우선 이미지를 담을 `Composable` 함수를 작성합니다. 
+```kotlin 
+@Composable
+private fun TvShowImage(tvShow: TvShow) {
+    Image(
+        painter = painterResource(id = tvShow.imageId),
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .padding(4.dp)
+            .height(140.dp)
+            .width(100.dp)
+            .clip(RoundedCornerShape(corner = CornerSize(10.dp)))
+    )
+}
+```
+
+그리고 이미지와 설명을 담을 레이아웃을 `Row`와 `Column`을 이용해서 작성합니다. 
+```kotlin
+@Composable
+fun TvShowListItem(tvShow: TvShow, selectedItem: (TvShow) -> Unit) {
+    Card(
+        modifier = Modifier
+            .padding(10.dp)
+            .fillMaxWidth(),
+        elevation = 10.dp,
+        shape = RoundedCornerShape(corner = CornerSize(10.dp))
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(5.dp)
+                .fillMaxWidth()
+                .clickable {
+                    selectedItem(tvShow)
+                },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TvShowImage(tvShow = tvShow)
+            Column {
+                Text( text = tvShow.name, style = MaterialTheme.typography.h5)
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = tvShow.overview,
+                    style = MaterialTheme.typography.body1,
+                    maxLines = 3, 
+                    overflow = TextOverflow.Ellipsis 
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = tvShow.year.toString(),
+                        style = MaterialTheme.typography.h5
+                    )
+                    Text(
+                        text = tvShow.rating.toString(),
+                        style = MaterialTheme.typography.h5
+                    )
+                }
+            }
+        }
+    }
+}
+```
+함수에서는 출력할 `TvShow`클래스와 ItemClickListener로 받을 람다함수를 파라메터로 넘겨 받습니다. 
+
+그리고 `LazyColumn`으로 표시할 `Composable` 함수 내에서 `itemContent`값에 `TvShowList` 값을 넣습니다.
+```kotlin
+@Composable
+fun DisplayingTvShows(selectedItem: (TvShow) -> Unit) {
+    val tvShows = remember {
+        TvShowList.tvShows
+    }
+    LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)) {
+        items(
+            items = tvShows,
+            itemContent = {
+                TvShowListItem(tvShow = it, selectedItem)
+            }
+        )
+    }
+}
+```
+
+마지막으로 `OnCreate` 함수에서 클릭 리스너와 함께 함수를 호출합니다. 
+```kotlin 
+DisplayingTvShows {
+    Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+}
+```
+
+![image](https://user-images.githubusercontent.com/55622345/170053448-25f3f1fa-5b5e-4020-bb59-c4285a8e98e8.png)
+
 
 ## Ref. 
 https://developer.android.com/jetpack/compose/gestures#scrolling <br>
