@@ -42,7 +42,8 @@ class RecyclerViewActivity : ComponentActivity() {
 //                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
 //            }
             DisplayingTvShows {
-                Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+                startActivity(InfoActivity.intent(this, it)) // 외부 인텐트?
             }
         }
     }

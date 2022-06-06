@@ -10,9 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JetpackComposeFundamentals">
         <activity
+            android:name=".recyclerview.InfoActivity"
+            android:exported="false"
+            android:label="@string/title_activity_info"
+            android:theme="@style/Theme.JetpackComposeFundamentals" />
+        <activity
             android:name=".recyclerview.RecyclerViewActivity"
             android:exported="true"
-            android:theme="@style/Theme.JetpackComposeFundamentals" >
+            android:theme="@style/Theme.JetpackComposeFundamentals">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,9 +28,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.JetpackComposeFundamentals">
-
-        </activity>
+            android:theme="@style/Theme.JetpackComposeFundamentals"></activity>
     </application>
 
 </manifest>
