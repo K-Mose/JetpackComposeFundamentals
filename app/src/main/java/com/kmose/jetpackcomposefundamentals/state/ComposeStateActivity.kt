@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kmose.jetpackcomposefundamentals.state.ui.theme.JetpackComposeFundamentalsTheme
 
 class ComposeStateActivity : ComponentActivity() {
@@ -35,11 +36,13 @@ class ComposeStateActivity : ComponentActivity() {
 // https://youtu.be/mymWGMy9pYI?t=300
 @Composable
 fun stateHoisting() {
+    val viewModel = viewModel<StateViewModel>()
 //    var count by remember {mutableStateOf(0)}
     // Configuration 변경으로 인해(rotatin, language, keyboard 등등) Activity가 재생성되면 remeber만으로는 상태가 저장이 되지 않는다.
-    var count by rememberSaveable {mutableStateOf(0)}
+//    var count by rememberSaveable {mutableStateOf(0)}
+    val count = viewModel.count
     stateButton(count) {
-        count = it + 1
+        viewModel.increaseCount()
     }
 }
 
