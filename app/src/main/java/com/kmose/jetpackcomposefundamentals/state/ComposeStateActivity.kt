@@ -8,6 +8,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,14 +35,16 @@ class ComposeStateActivity : ComponentActivity() {
 // https://youtu.be/mymWGMy9pYI?t=300
 @Composable
 fun stateHoisting() {
-    var count by remember {mutableStateOf(0)}
+//    var count by remember {mutableStateOf(0)}
+    // Configuration 변경으로 인해(rotatin, language, keyboard 등등) Activity가 재생성되면 remeber만으로는 상태가 저장이 되지 않는다.
+    var count by rememberSaveable {mutableStateOf(0)}
     stateButton(count) {
         count = it + 1
     }
 }
 
 @Composable
-// Unidirectional Data Flow
+// Unidirectional Data Flow #https://developer.android.com/jetpack/compose/architecture#udf
 // count -> state 전달 top to bottom
 // clickListener -> 클릭 이벤트 전달 bottom to top
 fun stateButton(count: Int, buttonClickListener: (Int) -> Unit) {
