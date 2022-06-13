@@ -11,8 +11,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kmose.jetpackcomposefundamentals.state.ui.theme.JetpackComposeFundamentalsTheme
 
@@ -26,21 +24,29 @@ class ComposeStateActivity : ComponentActivity() {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    stateButton()
+                    stateHoisting()
                 }
             }
         }
     }
 }
 
-@Preview
+// https://youtu.be/mymWGMy9pYI?t=300
 @Composable
-fun stateButton() {
-    val context = LocalContext.current
+fun stateHoisting() {
     var count by remember {mutableStateOf(0)}
+    stateButton(count) {
+        count = it + 1
+    }
+}
+
+@Composable
+// Unidirectional Data Flow
+// count -> state 전달 top to bottom
+// clickListener -> 클릭 이벤트 전달 bottom to top
+fun stateButton(count: Int, buttonClickListener: (Int) -> Unit) {
     Button(onClick = {
-        count =+ 1
-        Toast.makeText(context, "Count is : $count", Toast.LENGTH_SHORT).show()
+        buttonClickListener(count)
     },
         contentPadding = PaddingValues(16.dp),
         border = BorderStroke(3.dp, Color.Black),
