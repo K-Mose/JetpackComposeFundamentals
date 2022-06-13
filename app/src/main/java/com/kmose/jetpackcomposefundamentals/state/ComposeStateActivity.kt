@@ -35,12 +35,11 @@ class ComposeStateActivity : ComponentActivity() {
     }
 }
 
-var count = mutableStateOf(0)
-
 @Preview
 @Composable
 fun stateButton() {
     val context = LocalContext.current
+    var count = remember {mutableStateOf(0)}
     Button(onClick = {
         count.value = count.value + 1
         Toast.makeText(context, "Count is : ${count.value}", Toast.LENGTH_SHORT).show()
