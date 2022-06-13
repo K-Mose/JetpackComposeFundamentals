@@ -35,15 +35,15 @@ class ComposeStateActivity : ComponentActivity() {
     }
 }
 
-var count = 0
+var count = mutableStateOf(0)
 
 @Preview
 @Composable
 fun stateButton() {
     val context = LocalContext.current
     Button(onClick = {
-        count += 1
-        Toast.makeText(context, "Count is : $count", Toast.LENGTH_LONG).show()
+        count.value = count.value + 1
+        Toast.makeText(context, "Count is : ${count.value}", Toast.LENGTH_SHORT).show()
     },
         contentPadding = PaddingValues(16.dp),
         border = BorderStroke(3.dp, Color.Black),
@@ -52,7 +52,7 @@ fun stateButton() {
             contentColor = Color.White
         )
     ) {
-        Text(text = "Count is : $count",
+        Text(text = "Count is : ${count.value}",
             style = MaterialTheme.typography.h3,
             modifier = Modifier.padding(5.dp)
         )
