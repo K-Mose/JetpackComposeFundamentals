@@ -94,3 +94,25 @@ fun stateButton() {
 }
 ```  
 </details>
+
+![increasing_value](https://user-images.githubusercontent.com/55622345/173471670-dc46849d-3a4c-4416-9327-46422287d347.png)
+
+
+## Remember 
+`count` 변수가 전역으로 사용 되고 있는데, Composable 함수들이 독립적으로 여러 파일에 존재하면서 `count` 변수를 사용하게 된다면 `Unexpected Error`가 발생하게 됩니다. 그렇기 때문에 `count`를 Composable 함수 내에 지역변수로 변경하겠습니다. 
+
+![image](https://user-images.githubusercontent.com/55622345/173473002-ff43f570-b108-4849-92dc-30a813732038.png) <br>
+단순히 `mutableStateOf`를 그대로 지역변수로 추가하게 되면 오류가 발생하게 됩니다. 
+이것은 Composable 함수가 Recomposition 될 때마다 새롭게 호출되므로 지역변수인 `count`값도 같이 새로 호출되면서 값이 초기화되기 때문입니다. 
+
+그래서 [`Remember`](https://developer.android.com/reference/kotlin/androidx/compose/runtime/package-summary#remember(kotlin.Function0))로 변수를 호출하게 되면 현재 상태값을 기억(보존)하여 Recomposable이 일어날 때에도 같은 값을 사용할 수 있게 합니다. 
+
+```kotlin 
+@Preview
+@Composable
+fun stateButton() {
+    val context = LocalContext.current
+    val count = remember {mutableStateOf(0)}
+    ……
+ }   
+```
