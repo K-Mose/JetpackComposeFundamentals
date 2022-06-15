@@ -135,3 +135,32 @@ delegate로 선언하면 `getValue`와 `setValue`를 사용하게 되어 변수�
 *three way to declare mutablestate object* <br>
 [![image](https://user-images.githubusercontent.com/55622345/173713529-662cbe12-fe63-4101-88d4-150210cbc806.png)
 ](https://developer.android.com/jetpack/compose/state#state-in-composables)
+
+
+## [State Hoisting](https://developer.android.com/jetpack/compose/state#state-hoisting)
+State hoisting은 Stateful인 Composable 함수를 Stateless 상태로 만드는 방법입니다. 
+Composable 함수가 Remeber로 State를 가지게 되면 Stateful이라 하고, 어떠한 상태도 가지고 있지 않는 Composable을 Stateless라고 합니다. 
+
+Statful인 Composable은 재사용성이 떨어지며 테스트하기 여렵습니다. 그렇기 때문에 State Hoisting을 사용해서 Composable이 가지고있는 상태를 hoisting 해야 합니다. 
+```kotlin 
+@Composable
+fun stateHoisting() {
+    var count by remember {mutableStateOf(0)}
+    stateButton(count) {
+        count = it + 1
+    }
+}
+
+@Composable
+fun stateButton(count: Int, buttonClickListener: (Int) -> Unit) {
+    Button(onClick = {
+        buttonClickListener(count)
+    }
+    ……
+}
+```
+기존의 stateful 이었던 `stateButton`함수의 `count`를 `stateHoisting`함수에 hoisting 하여 stateless로 만든 후 `stateHoisting`함수에서 `stateButton`함수를 호출해 줍니다. 
+
+State Hoisting을 사용하게되면 데이터의 흐름이 [UDF](https://developer.android.com/jetpack/compose/architecture#udf) 패턴을 따르게 됩니다. <br>
+![image](https://user-images.githubusercontent.com/55622345/173723911-2bb3aa59-a398-43d9-b57b-8dc28fee7679.png)
+
