@@ -117,7 +117,7 @@ fun stateButton() {
  }   
 ```
 
-또안 `by` Delegate를 사용해서 선언할 수 있습니다. Delegate로 선언하기 위해서는 아래의 코드를 import 해야 합니다. 
+또한 `by` Delegate를 사용해서 선언할 수 있습니다. Delegate로 선언하기 위해서는 아래의 코드를 import 해야 합니다. 
 ```kotlin
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
