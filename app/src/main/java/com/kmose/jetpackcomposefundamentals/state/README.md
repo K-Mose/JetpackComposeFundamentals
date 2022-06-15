@@ -116,3 +116,22 @@ fun stateButton() {
     ……
  }   
 ```
+
+또안 `by` Delegate를 사용해서 선언할 수 있습니다. Delegate로 선언하기 위해서는 아래의 코드를 import 해야 합니다. 
+```kotlin
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+```
+```koltin
+var count by remember {mutableStateOf(0)}
+……
+Text(text = "Count is : ${count.value}", -> Text(text = "Count is : $count",
+```
+delegate로 선언하면 `getValue`와 `setValue`를 사용하게 되어 변수로 직접 접근이 가능합니다. 
+
+
+
+
+*three way to declare mutablestate object* <br>
+[![image](https://user-images.githubusercontent.com/55622345/173713529-662cbe12-fe63-4101-88d4-150210cbc806.png)
+](https://developer.android.com/jetpack/compose/state#state-in-composables)
