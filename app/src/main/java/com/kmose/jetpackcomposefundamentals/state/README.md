@@ -164,3 +164,11 @@ fun stateButton(count: Int, buttonClickListener: (Int) -> Unit) {
 State Hoisting을 사용하게되면 데이터의 흐름이 [UDF](https://developer.android.com/jetpack/compose/architecture#udf) 패턴을 따르게 됩니다. <br>
 ![image](https://user-images.githubusercontent.com/55622345/173723911-2bb3aa59-a398-43d9-b57b-8dc28fee7679.png)
 
+## RememberSaveable
+Composable 함수에서 `remember` 만으로 환경 설정이 변경되었을 때 (예를 들면 화면의 회전이나 라이트 테마에서 다크 테마로 변경 등) 상태 저장이 유지가 되지 않습니다. 
+환경설정이 변경되었을 때 상태를 유지하기 위해서는 `remember`에서 `rememberSaveable`로 바꾸면 됩니다. 
+```kotlin 
+//    var count by remember {mutableStateOf(0)}
+var count by rememberSaveable {mutableStateOf(0)}
+```
+
