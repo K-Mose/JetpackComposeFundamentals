@@ -172,3 +172,39 @@ Composable 함수에서 `remember` 만으로 환경 설정이 변경되었을 �
 var count by rememberSaveable {mutableStateOf(0)}
 ```
 
+## Compose With ViewModel 
+Jetpack Compose에서 ViewModel을 사용하기 위해서 아래와 같이 의존성을 추가합니다. 의존성은 [여기](https://developer.android.com/jetpack/compose/setup#compose-compiler)에서 확인 가능합니다.
+```gradle
+implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
+```
+
+의존성을 추가했으면 ViewModel 클래스를 작성합니다. 
+```kotlin
+class StateViewModel : ViewModel() {
+    var count by mutableStateOf(0)
+
+    fun increaseCount() {
+       count++
+    }
+}
+```
+ViewModel 클래스 안으로 `mutableStateOf`를 이동시키고 클릭 이벤트로 사용될 함수를 작성합니다. 
+
+그리고 state hoisting을 작성한 함수에서 값을 변경해줍니다. 
+```kotlin
+@Composable
+fun stateHoisting() {
+    val viewModel = viewModel<StateViewModel>()
+    val count = viewModel.count
+    stateButton(count) {
+        viewModel.increaseCount()
+    }
+}
+```
+
+## Ref.
+https://developer.android.com/jetpack/compose/state <br>
+https://www.youtube.com/watch?v=mymWGMy9pYI&t=300s <br>
+https://developer.android.com/codelabs/jetpack-compose-state <br>
+https://developer.android.com/jetpack/compose/setup <br>
+
