@@ -10,15 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JetpackComposeFundamentals">
         <activity
-            android:name=".state.ComposeStateActivity"
+            android:name=".snackbar.SnackBarActivity"
             android:exported="true"
-            android:label="@string/title_activity_compose_state"
+            android:label="@string/title_activity_snackbar"
             android:theme="@style/Theme.JetpackComposeFundamentals">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".state.ComposeStateActivity"
+            android:exported="true"
+            android:label="@string/title_activity_compose_state"
+            android:theme="@style/Theme.JetpackComposeFundamentals">
         </activity>
         <activity
             android:name=".recyclerview.InfoActivity"
@@ -29,6 +35,11 @@
             android:name=".recyclerview.RecyclerViewActivity"
             android:exported="true"
             android:theme="@style/Theme.JetpackComposeFundamentals">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
